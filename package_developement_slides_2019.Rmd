@@ -1,0 +1,62 @@
+---
+title: "Developing R Packages"
+subtitle: "GRBIO Students' Seminar"
+author: "Marta Bofill Roig and Pol Castellano Escuder"
+date: "2019/10/02"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(dpi = 250, fig.height = 5, fig.width = 9, fig.align = 'center', cache = TRUE, eval = FALSE)
+```
+
+# Why Packages?
+
+"Anything that can be automated, should be automated"
+
+  - Hadley Wickham
+  
+---
+
+# Package Structure
+
+---
+
+# Go for it!
+
+## Create a package
+
+```{r}
+usethis::create_package("~/Desktop/GRBIO")
+```
+
+---
+
+```{r}
+
+
+# START FUNCTION
+usethis::use_r("fbind")
+
+devtools::load_all()
+
+usethis::use_partial_warnings()
+usethis::use_mit_license("Pol Castellano")
+devtools::check()
+devtools::document()
+devtools::install()
+```
+
+
+---
+
+background-image: url("pol_marta.JPG")
+
+# Thank you all!
+
