@@ -23,13 +23,59 @@ class: center, middle, inverse, title-slide
 
 # Why Packages?
 
+.pull-left[
+
+&lt;img src = "packages.png" alt = "RPackages" width = "300"&gt;
+
+]
+
+.pull-right[
+
 "Anything that can be automated, should be automated"
 
   - Hadley Wickham
   
+]
+
+[R packages by Hadley Wickham](http://r-pkgs.had.co.nz/)
+
 ---
 
-# Package Structure
+# (Basic) Package Structure
+
+  1) `DESCRIPTION`: Metadata file. This file lets you describe what your package needs to work (p.e. dependences).    
+  
+  2) `NAMESPACE`: Defines what functions it makes available to other packages and what functions it requires from other packages.    
+  
+  3) `Code`: The most important directory is `R/`, where your R code lives.     
+  
+  4) `Tests`: To ensure your package works as designed, it’s essential to write unit tests which define correct behaviour, and alert you when functions break.  
+  
+  5) `Documentation`: To understand how to use the functions in your package, you’ll need to document them.    
+  
+  6) `Vignettes`: They’re long-form documents that show how to combine multiple parts of your package to solve real problems.     
+
+---
+
+# Toolbox
+
+.pull-left[
+
+![](allison_horst.png)
+
+[By Allison Horst](https://github.com/allisonhorst/stats-illustrations)
+
+]
+
+.pull-right[
+
+  ## - [devtools](https://github.com/r-lib/devtools)
+  ## - [usethis](https://github.com/r-lib/usethis)
+  ## - [roxygen2](https://github.com/r-lib/roxygen2)   
+  ## - [testthat](https://github.com/r-lib/testthat)  
+  ## - [covr](https://github.com/r-lib/covr) 
+  
+]
 
 ---
 
@@ -39,31 +85,88 @@ class: center, middle, inverse, title-slide
 
 
 ```r
-usethis::create_package("~/Desktop/GRBIO")
+usethis::create_package("~/Desktop/GRBIOseminar")
 ```
 
----
+## Create a function
 
 
 ```r
-# START FUNCTION
-usethis::use_r("fbind")
-
-devtools::load_all()
-
-usethis::use_partial_warnings()
-usethis::use_mit_license("Pol Castellano")
-devtools::check()
-devtools::document()
-devtools::install()
+usethis::use_r("GRBIOMedianImpute")
 ```
 
 
+```r
+GRBIOMedianImpute &lt;- function(x){
+  
+  x[is.na(x)] &lt;-  median(x, na.rm = T)
+  return(x)
+
+}
+```
+
 ---
 
-background-image: url("pol_marta.JPG")
+## Documentation
+
+To write documentation use: `Code/Insert Roxygen Skeleton`
+
+Then, write documentation of your function and run the following code to generate the documentation files (help files):
+
+
+```r
+devtools::document()
+```
+
+## Tests
+
+Run the following code to create a `testthat` directory.  
+
+
+```r
+usethis::use_testthat()
+```
+
+Then, create your tests and evaluate them with:
+
+
+```r
+devtools::check()
+# or
+covr::package_coverage()
+```
+
+---
+
+## Other Important Things
+
+### Load your Package Under Developement 
+
+
+```r
+devtools::load_all() # loads a package. It roughly simulates what happens when a package is installed and loaded with library().
+```
+
+### Licenses
+
+
+```r
+usethis::use_gpl3_license("Pol Castellano")
+```
+
+### Continuous Integration and Badges
+
+
+```r
+usethis::use_travis() # This is a configuration file for the Travis CI continuous integration service. You can add a coverage test code line on the Travis.yml to evaluate the coverage of your package at each push!
+usethis::use_appveyor() # This is a configuration file for the AppVeyor continuous integration service for Windows.
+```
+
+---
 
 # Thank you all!
+
+![](pol_marta.JPG)
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
@@ -110,7 +213,24 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
     deleted = true;
   });
-})();</script>
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
 
 <script>
 (function() {
